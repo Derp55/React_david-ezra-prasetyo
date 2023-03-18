@@ -51,7 +51,7 @@
     <div class="container-fluid ">
             <div class="d-grid justify-content-center">
             <div class="text-center">
-            <img src="assets/bootstrap-logo.svg.png">
+            <img src="assets/bootstrap-logo.svg.png" alt="logo">
             <h1>Create Product</h1>
             <p>Below is an example form built entirely with Bootstrap’s form controls. 
             Each required form group has a validation state
@@ -63,14 +63,14 @@
 
             <div class="col has-validation">
             <label for="Product Name">Product Name</label><br>
-            <input type="text"required>
+            <input type="text"required placeholder="...">
             <div class="invalid-feedback"> Wajib diisi</div>
             <div class="valid-feedback">Terimakasih sudah diisi</div>
             </div><br>
 
             <div class="col">
             <label for="Product Name">Product Category</label><br>
-            <select name="category" required>
+            <select name="category" required title="category">
                 <option selected disabled value=>Choose...</option>
                 <option value="Clothes"> Clothes</option>
                 <option value="Shoes">Shoes</option>
