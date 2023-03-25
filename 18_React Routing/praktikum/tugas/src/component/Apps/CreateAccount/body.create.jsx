@@ -13,8 +13,6 @@ const [products, setProducts] = useState([]);
   const [category, setCategory] = useState('');
   const [freshness, setFreshness] = useState('');
   const [price, setPrice] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const [productToDelete, setProductToDelete] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,18 +28,6 @@ const [products, setProducts] = useState([]);
     setCategory('');
     setFreshness('');
     setPrice('');
-  };
-
-  const handleDelete = () => {
-    const updatedProducts = products.filter((product) => product.id !== productToDelete.id);
-    setProducts(updatedProducts);
-    setShowModal(false);
-    setProductToDelete(null);
-  };
-
-  const handleDeleteClick = (product) => {
-    setProductToDelete(product);
-    setShowModal(true);
   };
 
 
