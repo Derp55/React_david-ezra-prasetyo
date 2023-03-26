@@ -1,0 +1,11 @@
+#body {
+    background-color: #37517e;
+    height: 760px;
+}
+
+img {
+    width: 636px;
+    height: 527px;
+    left: 639px;
+    top: calc(50% - 527px/2 + 8.5px);
+}

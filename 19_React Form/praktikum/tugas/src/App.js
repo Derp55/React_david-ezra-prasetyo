@@ -1,9 +1,11 @@
-import Body from './component/createproduct/form';
+import LandingPage from "./component/landingpage/landingpage";
+import Form from "./component/createproduct/form";
 
 function App() {
   return (
     <div className="App">
-      <Body></Body>
+      <LandingPage/>
+      <Form/>
     </div>
   );
 }
