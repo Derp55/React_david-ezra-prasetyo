@@ -1,11 +1,32 @@
 import React, { useState,useEffect } from 'react';
 import Logo from "../assets/bootstrap-logo.png";
 import { v4 as uuidv4 } from "uuid";
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
 
-const Form = () => {
+const Table = () => {
 useEffect(()=> {
     alert("Welcome");
 }, []);
+
+const CreateproductSchema = Yup.object().shape({
+  nama: Yup.string()
+    .min(2, 'Too Short!')
+    .max(11, 'Too Long!')
+    .required('Nama produk wajib diisi'),
+  category: Yup.string()
+    .required('Kategori produk wajib diisi'),
+  freshness: Yup.number()
+    .typeError('Kesesuaian produk harus dalam bentuk angka'),
+  price: Yup.number()
+    .typeError('Harga produk harus dalam bentuk angka')
+    .min(1, 'Harga produk minimal Rp 1')
+    .max(1000000, 'Harga produk maksimal Rp 1 juta'),
+  description: Yup.string()
+    .required('Deskripsi produk wajib diisi')
+    .min(10, 'Deskripsi produk minimal 10 karakter')
+    .max(500, 'Deskripsi produk maksimal 500 karakter'),
+});
 
 const [products, setProducts] = useState([]);
   const [name, setName] = useState('');
@@ -50,11 +71,6 @@ const article = {
   }
 };
 
-const handleClick = (e) => {
-    e.preventDefault();
-    const randomNumber = Math.floor(Math.random() * 100);
-   console.log(randomNumber);
-  };
   return ( 
 <div id="Landing">
   <div className="container-fluid ">
@@ -65,127 +81,79 @@ const handleClick = (e) => {
             <p>{article.description.en}</p>
     </div>
 
-    <form className="" action="" onSubmit={handleSubmit}>
-      <h3 className="mb-4">Detail Product</h3>
+    <Formik
+    initialValues={{
+        name: '',
+        category: '',
+        freshness: '',
+        description: '',
+        price: '',
+    }}
 
-      <div className="col ">
-        <label htmlFor="Product Name">Product Name</label>
-        <br />
-        <input 
-        type="text" 
-        required 
-        placeholder="..."
-        onChange={(e) => setName(e.target.value)}    
-        />
-      </div>
+        validationSchema={CreateproductSchema}
+       onSubmit={values => {
+         // same shape as initial values
+         console.log(values);
+       }}
 
-      <br />
-      <div className="col">
-        <label htmlFor="Product Name">Product Category</label>
-        <br />
-        <select name="category" required title="category">
-          <option value disabled="">
-            Choose...
-          </option>
-          <option value="Clothes"> Clothes</option>
-          <option value="Shoes">Shoes</option>
-          <option value="Hats">Hats</option>
-        </select>
-      </div>
+    >
+        {({ errors, touched }) => (
+        <Form>
+           <h3 className="mb-4">Detail Product</h3> 
 
-      <br />
-      <div className="col">
-        <label htmlFor="Product Name">Image of Product</label>
-        <br />
-        <div className="mb-3">
-          <input
-            type="file"
-            className="form-control"
-            name=""
-            id=""
-            placeholder=""
-            aria-describedby="fileHelpId"
-            required
-          />
-        </div>
-
-      </div>
-      <div className="col">
-        <label htmlFor="Product Name">Product Freshness</label>
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="Product Freshness"
-            id=""
-            required
-          />
-          <label className="form-check-label" htmlFor="">
-            Brand New
-          </label>
-        </div>
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="Product Freshness"
-            id=""
-            required
-          />
-          <label className="form-check-label" htmlFor="">
-            Second Hand
-          </label>
-        </div>
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="Product Freshness"
-            id=""
-            required=""
-          />
-          <label className="form-check-label" htmlFor="">
-            Refurbished
-          </label>
-        </div>
-      </div>
-      <br />
-      <div className="col">
-        <label htmlFor="Product Name">Additional Description</label>
-        <br />
-        <textarea
-          name=""
-          id=""
-          style={{ width: 603, height: 116 }}
-          required
-          defaultValue={""}
-        />
-        </div>
-        
-        <div className="input-group flex-wrap mb-3 col">
-            <div className='mt-2'>
-                <label htmlFor="">Product Price</label>
+            <div className='col'>
+            <label htmlFor="Product Name">Product Name</label>
+            <Field name="nama" />
+            {errors.nama && touched.nama && <div>{errors.nama}</div>}
             </div>
+
+            <div className='col'>
+            <label htmlFor="Product Category">Product Category</label>
             <br />
-            <div className="input-group mb-3">
-                <span className="input-group-text">$</span>
-                <input
-                type="number"
-                className="form-control"
-                required
-                />
+            <Field as="select" name="category">
+                <option value="" disabled> Choose Category </option>
+                <option value="Clothes">Clothes</option>
+                <option value="Shoes">Shoes</option>
+                <option value="Hats">Hats</option>
+            </Field>
+            {errors.category && touched.category && <div>{errors.category}</div>}
             </div>
-        </div>
 
-      <br />
-      <input
-        className="btn btn-primary"
-        type="submit"
-        defaultValue="Submit"
-        style={{ width: 557, height: 48 }}
-      />
-      <button onClick={handleClick}>Generate random number</button>
-    </form>
+        
+            <div className='col'>
+            <label htmlFor="Product Freshness">Product Freshness</label>
+            <br />
+            <Field type="radio" name="freshness" value="1" />
+            <label htmlFor="Brand New">Brand New</label>
+            <Field type="radio" name="freshness" value="2" />
+            <label htmlFor="Second Hand">Second Hand</label>
+            <Field type="radio" name="freshness" value="3" />
+            <label htmlFor="Refurbished">Refurbished</label>
+            {errors.freshness && touched.freshness && <div>{errors.freshness}</div>}
+            </div>
+
+            <div className='col'>
+            <label htmlFor="Additional Description">Additional Description</label>
+            <br />
+            <Field as="textarea" name="description" style={{ width: 603, height: 116 }}/>
+            {errors.description && touched.description && <div>{errors.description}</div>}
+            </div>
+
+            <div className='col'>
+                <label htmlFor="Product Price">Product Price</label>
+                <br />
+                <Field name="price"/>
+                {errors.price && touched.price && <div>{errors.price}</div>}
+            </div>
+
+            <br />
+           <button 
+           className='btn btn-primary'
+           style={{ width: 557, height: 48 }} 
+           type='submit'>Submit</button>
+        </Form>
+        )}
+    </Formik>
     <table>
                 <thead>
                     <th>No</th>
@@ -214,4 +182,4 @@ const handleClick = (e) => {
   )
 };
 
-export default Form;
+export default Table;

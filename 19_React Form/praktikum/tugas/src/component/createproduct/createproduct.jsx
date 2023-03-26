@@ -1,12 +1,12 @@
 import Navbar from "../header/header";
-import Form from "./form";
+import Table from "./form";
 
 const CreateProduct = () => {
 
   return ( 
-<div id="Landing">
+<div id="create">
   <Navbar/>
-  <Form/>
+  <Table/>
 </div>
   )
 };
