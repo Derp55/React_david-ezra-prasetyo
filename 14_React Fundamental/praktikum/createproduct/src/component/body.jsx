@@ -1,6 +1,6 @@
 import './body.css';
 import React from 'react';
-import Logo from './bootstrap-logo';
+import Logo from './bootstrap-logo.svg';
 
 function Body() {
     return (
