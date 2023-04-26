@@ -1,0 +1,35 @@
+#header{
+height: 60px;
+background-color: white;
+}
+
+#body{
+background-color: #37517e;
+height: 760px;
+}
+
+img{
+    width: 636px;
+    height: 527px;
+    left: 639px;
+    top: calc(50% - 527px/2 + 8.5px);
+}
+
+
+
+#footer-top{
+background: rgba(243, 245, 250, 1);
+height: 239px;
+}
+
+#footer-mid{
+height: 340px;
+
+}
+
+#footer-bottom{
+background-color: #37517e;
+display: flex;
+justify-content: space-between;
+height: 80px;
+}

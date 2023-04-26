@@ -1,0 +1,8 @@
+.aboutus{
+    background-color: rgb(241, 120, 120);
+    flex-wrap: wrap;
+}
+
+.about{
+    justify-content: center;
+}
