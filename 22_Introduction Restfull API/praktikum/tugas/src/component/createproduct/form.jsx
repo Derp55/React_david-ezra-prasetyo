@@ -154,7 +154,28 @@ const article = {
         </Form>
         )}
     </Formik>
-    
+    <table>
+                <thead>
+                    <th>No</th>
+                    <th>Product Name</th>
+                    <th>Product Category</th>
+                    <th>Product Freshness</th>
+                    <th>Product Price</th>
+                </thead>
+                <tbody>
+                    {products.map((product, index) => (
+                    <tr key={index}>
+                      <td>{index +1}</td>
+                      <td>{product.name}</td>
+                      <td>{product.category}</td>
+                      <td>{product.freshness}</td>
+                      <td>{product.price}</td>
+                      <button>Delete</button>
+                      <button>Edit</button>
+                    </tr>
+                    ))}
+                </tbody>
+            </table>
   </div>
 </div>
 </div>

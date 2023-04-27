@@ -1,6 +1,5 @@
 import Navbar from "../header/header";
 import Table from "./form";
-import ProductList from "./Productlist";
 
 const CreateProduct = () => {
 
@@ -8,7 +7,6 @@ const CreateProduct = () => {
 <div id="create">
   <Navbar/>
   <Table/>
-  <ProductList/>
 </div>
   )
 };
