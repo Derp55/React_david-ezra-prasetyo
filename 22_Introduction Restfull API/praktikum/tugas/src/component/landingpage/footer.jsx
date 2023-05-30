@@ -13,9 +13,9 @@ const Footer = () => {
     <div className="row">
       <div className="col">
         <h3 className="ps-5 mt-5">Join Our Newspaper</h3>
-        <p1>
+        <p>
           Tamen quem nulla quae legam multos aute sint culpa legam noster magna
-        </p1>
+        </p>
         <div className="input-group mb-3">
           <input
             type="text"
@@ -39,21 +39,22 @@ const Footer = () => {
     <div className="row">
       <div className="col mt-4">
         <h4>Arsha</h4>
-        <p5>A108 Adam Street</p5>
+        <p>A108 Adam Street</p>
         <br />
-        <p5>New York, NY 535022</p5>
+        <p>New York, NY 535022</p>
         <br />
-        <p5>United States</p5>
+        <p>United States</p>
         <br />
         <br />
-        <p5>
+        <p>
           <strong>Phone:</strong>+1 5589 55488 55
-        </p5>
+        </p>
         <br />
-        <p5>
+        <p>
           <strong>Email:</strong> info@example.com
-        </p5>
+        </p>
       </div>
+      
       <div className="col mt-4">
         <h5>Useful Links</h5>
         <ul type="none">
@@ -77,10 +78,10 @@ const Footer = () => {
       <div className="col mt-4">
         <h5>Our Social Networks</h5>
         <div className="social-links">
-          <p4>
+          <p>
             Cras fermentum odio eu feugiat lide par <br /> naso tierra videa
             magna derita valies
-          </p4>
+          </p>
           <br />
           <br />
           <button
@@ -112,8 +113,8 @@ const Footer = () => {
     </div>
   </div>
   <div className="justify-content-between text-white px-5 " id="footer-bottom">
-    <p3 className="mt-3">©Copyright Arsha. All Rights Reserved</p3>
-    <p6 className="mt-3">Designed by BootstrapMade</p6>
+    <p className="mt-3">©Copyright Arsha. All Rights Reserved</p>
+    <p className="mt-3">Designed by BootstrapMade</p>
   </div>
 </footer>
   )

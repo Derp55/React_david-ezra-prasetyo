@@ -1,6 +1,6 @@
 import React from "react";
 import './body.css';
-import Logo from "../assets/hero-img.png";
+import Logo from "../../assets/hero-img.png";
 
 const BodyLanding = () => {
 

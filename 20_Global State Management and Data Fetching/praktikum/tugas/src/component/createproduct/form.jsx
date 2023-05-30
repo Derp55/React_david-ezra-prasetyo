@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import Logo from "../assets/bootstrap-logo.png";
+import Logo from "../../assets/bootstrap-logo.png";
 import { v4 as uuidv4 } from "uuid";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
