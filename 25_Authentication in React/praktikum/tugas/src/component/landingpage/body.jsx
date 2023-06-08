@@ -1,7 +1,6 @@
 import React from "react";
 import './body.css';
 import Logo from "../../assets/hero-img.png";
-import { Link } from "react-router-dom";
 
 const BodyLanding = () => {
 
@@ -15,11 +14,9 @@ const BodyLanding = () => {
         </h1>
         <p>We are team of talented designers making websites with Bootstrap</p>
         <div className="btn1">
-          <Link to={"/login"}>
           <button type="button" className="btn btn-primary text-white">
             Get Started
           </button>
-          </Link>
           <button type="button" className="btn btn-link text-white">
             Watch Video
           </button>

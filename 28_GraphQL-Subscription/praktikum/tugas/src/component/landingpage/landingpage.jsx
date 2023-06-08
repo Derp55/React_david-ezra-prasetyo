@@ -1,6 +1,7 @@
 import Navbar from "../header/header";
 import Footer from "./footer";
 import BodyLanding from "./body";
+import ProductCard from "./productlist";
 
 const LandingPage = () => {
 
@@ -8,6 +9,7 @@ const LandingPage = () => {
 <div id="Landing">
   <Navbar/>
   <BodyLanding/>
+  <ProductCard/>
   <Footer/>
 </div>
   )

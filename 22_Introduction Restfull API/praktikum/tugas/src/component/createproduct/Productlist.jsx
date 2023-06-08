@@ -30,7 +30,7 @@ function ListProduct() {
                     {products.map(product => (
                     <tr>
                       <td>{product.id}</td>
-                      <td>{product.name}</td>
+                      <td>{product.nama}</td>
                       <td>{product.category}</td>
                       <td>{product.freshness}</td>
                       <td>{product.price}</td>

@@ -1,131 +1,157 @@
 import React from 'react';
 import Logo from "../../assets/bootstrap-logo.png";
-import { v4 as uuidv4 } from "uuid";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
+import { useMutation, gql } from '@apollo/client';
+
+const CreateproductSchema = Yup.object().shape({
+  nama: Yup.string()
+    .min(2, 'Too Short!')
+    .max(11, 'Too Long!')
+    .required('Nama produk wajib diisi'),
+  category: Yup.string()
+    .required('Kategori produk wajib diisi'),
+  freshness: Yup.string()
+    .required('Kesesuaian produk harus dipilih'),
+    info: Yup.string()
+    .min(2, 'Too Short!')
+    .required('deskripsi produk wajib diisi'),
+  price: Yup.number()
+    .typeError('Harga produk harus dalam bentuk angka')
+    .min(1, 'Harga produk minimal Rp 1')
+    .max(1000000, 'Harga produk maksimal Rp 1 juta'),
+});
+
+const initialFormValues = {
+  nama: '',
+  category: '',
+  freshness: '',
+  price: '',
+  info: '',
+};
+
+const article = {
+  title: {
+    id: "Buat Produk",
+    en: "Create Product"
+  },
+  description: {
+    id: "Di bawah ini adalah contoh formulir yang dibuat seluruhnya dengan kontrol formulir Bootstrap. Setiap grup formulir yang diperlukan memiliki status validasi yang dapat dipicu dengan mencoba mengirimkan formulir tanpa menyelesaikannya.",
+    en: "Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it."
+  }
+};
 
 function CreateTable() {
-    const CreateproductSchema = Yup.object().shape({
-        nama: Yup.string()
-          .min(2, 'Too Short!')
-          .max(11, 'Too Long!')
-          .required('Nama produk wajib diisi'),
-        category: Yup.string()
-          .required('Kategori produk wajib diisi'),
-        freshness: Yup.number()
-          .typeError('Kesesuaian produk harus dalam bentuk angka'),
-        price: Yup.number()
-          .typeError('Harga produk harus dalam bentuk angka')
-          .min(1, 'Harga produk minimal Rp 1')
-          .max(1000000, 'Harga produk maksimal Rp 1 juta'),
-      });
-    
-      const handleSubmit = async (values, { setSubmitting }) => {
-        try {
-          const response = await axios.post('https://6449f08279279846dcdb4f6b.mockapi.io/products/Productlist', values);
-          console.log('Product created:', response.data);
-          // Do something with the response, e.g., show success message
-        } catch (error) {
-          console.error('Error creating Product:', error);
-          // Handle error, e.g., show error message
-        } finally {
-          setSubmitting(false);
+  const InsertProduct = gql`
+    mutation InsertProduct($nama: String, $category: String, $freshness: String, $info: String, $price: String) {
+      insert_store_product(objects: {nama: $nama, category: $category, freshness: $freshness, info: $info, price: $price}) {
+        affected_rows
+        returning {
+          id
+          nama
+          category
+          freshness
+          info
+          price
         }
-      };
+      }
+    }
+  `;
 
-      const article = {
-        title: {
-          id: "Buat Produk",
-          en: "Create Product"
-        },
-        description: {
-          id: "Di bawah ini adalah contoh formulir yang dibuat seluruhnya dengan kontrol formulir Bootstrap. Setiap grup formulir yang diperlukan memiliki status validasi yang dapat dipicu dengan mencoba mengirimkan formulir tanpa menyelesaikannya.",
-          en: "Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it."
-        }
-      };
+  const [insertProduct, {loading: addProductloading}] = useMutation(InsertProduct);
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const { nama, category, freshness, price, info } = values;
+      const response = await insertProduct({
+        variables: { nama: nama || '', category: category || '', freshness: freshness || '', info: info || '', price: price || '' },
+      });
+      console.log('Product created:', response.data);
+    } catch (error) {
+      console.error('Error creating Product:', error);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div id="Landing">
-  <div className="container-fluid ">
-  <div className="d-grid justify-content-center">
-    <div className="text-center">
-      <img src={Logo} alt="logo" />
-      <h1>{article.title.en}</h1>
+      <div className="container-fluid ">
+        <div className="d-grid justify-content-center">
+          <div className="text-center">
+            <img src={Logo} alt="logo" />
+            <h1>{article.title.en}</h1>
             <p>{article.description.en}</p>
-    </div>
+          </div>
+          {addProductloading && <div>Loading</div>}
+          <Formik
+            initialValues={initialFormValues}
+            validationSchema={CreateproductSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ errors, touched }) => (
+              <Form>
+                <h3 className="mb-4">Detail Product</h3>
 
-    <Formik
-  onSubmit={handleSubmit}
+                <div className='col'>
+                  <label htmlFor="Product Name">Product Name:</label>
+                  <Field type="text" name="nama" id="nama" />
+                  {errors.nama && touched.nama && <div>{errors.nama}</div>}
+                </div>
 
-    initialValues={{
-        name: '',
-        category: '',
-        freshness: '',
-        price: '',
-    }}
+                <div className='col'>
+                  <label htmlFor="Product Category">Product Category:</label>
+                  <br />
+                  <Field as="select" name="category" id="category">
+                    <option value="" disabled> Choose Category </option>
+                    <option value="Clothes">Clothes</option>
+                    <option value="Shoes">Shoes</option>
+                    <option value="Hats">Hats</option>
+                  </Field>
+                  {errors.category && touched.category && <div>{errors.category}</div>}
+                </div>
 
-        validationSchema={CreateproductSchema}
+                <div className='col'>
+                  <label htmlFor="Product Freshness">Product Freshness:</label>
+                  <br />
+                  <Field type="radio" name="freshness" id="brand-new" value="brand-new" />
+                  <label htmlFor="brand-new">Brand New</label>
 
-    >
-        {({ errors, touched }) => (
-        <Form>
-           <h3 className="mb-4">Detail Product</h3> 
+                  <Field type="radio" name="freshness" id="second-hand" value="second-hand" />
+                  <label htmlFor="second-hand">Second Hand</label>
 
-            <div className='col'>
-            <label htmlFor="Product Name">Product Name</label>
-            <Field name="name" type='text' id='name' />
-            {errors.name && touched.name && <div>{errors.name}</div>}
-            </div>
+                  <Field type="radio" name="freshness" id="refurbished" value="refurbished" />
+                  <label htmlFor="refurbished">Refurbished</label>
 
-            <div className='col'>
-            <label htmlFor="Product Category">Product Category</label>
-            <br />
-            <Field as="select" name="category" id='category'>
-                <option value="" disabled> Choose Category </option>
-                <option value="Clothes">Clothes</option>
-                <option value="Shoes">Shoes</option>
-                <option value="Hats">Hats</option>
-            </Field>
-            {errors.category && touched.category && <div>{errors.category}</div>}
-            </div>
+                  {errors.freshness && touched.freshness && <div>{errors.freshness}</div>}
+                </div>
 
-        
-            <div className='col'>
-            <label htmlFor="Product Freshness">Product Freshness</label>
-            <br />
-            <Field type="radio" name="freshness" value="1" />
-            <label htmlFor="Brand New">Brand New</label>
+                <div className='col'>
+                  <label htmlFor="Product Desc">Product Desc:</label>
+                  <Field type="text" name="info" id="info" />
+                  {errors.info && touched.info && <div>{errors.info}</div>}
+                </div>
 
-            <Field type="radio" name="freshness" value="2" />
-            <label htmlFor="Second Hand">Second Hand</label>
+                <div className='col'>
+                  <label htmlFor="Product Price">Product Price:</label>
+                  <br />
+                  <Field type="text" name="price" id="price" />
+                  {errors.price && touched.price && <div>{errors.price}</div>}
+                </div>
 
-            <Field type="radio" name="freshness" value="3" />
-            <label htmlFor="Refurbished">Refurbished</label>
-
-            {errors.freshness && touched.freshness && <div>{errors.freshness}</div>}
-            </div>
-
-            <div className='col'>
-                <label htmlFor="Product Price">Product Price</label>
                 <br />
-                <Field name="price" type='text' id='price' />
-                {errors.price && touched.price && <div>{errors.price}</div>}
-            </div>
-
-            <br />
-           <button 
-           className='btn btn-primary'
-           style={{ width: 557, height: 48 }} 
-           type='Submit'>Submit</button>
-        </Form>
-        )}
-    </Formik>
-    
-  </div>
-</div>
-</div>
-  )
+                <button
+                  className='btn btn-primary'
+                  style={{ width: 557, height: 48 }}
+                  type='submit'>Submit</button>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default CreateTable
+export default CreateTable;
+
