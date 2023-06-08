@@ -21,13 +21,15 @@ function ProductCard() {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
       <h1>Product List</h1>
       {data.store_product.map(({ id, nama, category, freshness, info, price }) => (
-        <div className="card" style={{ width: '18rem' }} key={id}>
-          <img className="card-img-top" 
-          src="https://picsum.photos/200/300"
-           alt="Card image cap" />
+        <div className="card" style={{ width: '18rem', margin: '1rem' }} key={id}>
+          <img
+            className="card-img-top"
+            src="https://picsum.photos/200/300"
+            alt="Card"
+          />
           <div className="card-body">
             <h5 className="card-title">{nama}</h5>
             <p className="card-text">{category}</p>
