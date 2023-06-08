@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
-import { gql, useSubscription, useMutation } from "@apollo/client";
+import { gql, useQuery, useMutation } from "@apollo/client";
 
-const GetProductStreamingSubscription = gql`
-subscription GetProductStreamingSubscription {
-  store_product {
-    category
-		freshness
-		info
-		nama
-		price
-		id
+const GetProduct = gql`
+  query GetProduct {
+    store_product {
+      id
+      nama
+      category
+      freshness
+      info
+      price
+    }
   }
-}
 `;
 
 const DeleteProduct = gql`
@@ -23,14 +23,22 @@ const DeleteProduct = gql`
 `;
 
 function ListProduct() {
-  const { loading, error, data } = useSubscription(GetProductStreamingSubscription);
+  const { loading, error, data } = useQuery(GetProduct);
   const [deleteProductMutation] = useMutation(DeleteProduct);
+
+  useEffect(() => {
+    refetchProduct();
+  }, []);
+
+  const refetchProduct = () => {
+  };
 
   const deleteProduct = async (productId) => {
     try {
       await deleteProductMutation({
         variables: { productId: productId },
       });
+      refetchProduct(); 
     } catch (error) {
       console.error("Error deleting product:", error);
     }
